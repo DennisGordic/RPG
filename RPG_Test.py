@@ -35,11 +35,10 @@ while health > 0:
     player_dmg_min=1*int(player_lvl)
     player_dmg_max=6*int(player_lvl)
 
-    explore=input("Do you want to explore or shop? (only say explore or shop)")
+    explore=input("Do you want to explore or go to town? (only say explore or town)")
     turns=0
     if explore=="explore":
         lvl=input("What level monsters?")
-        mode=input("What dificulty? (easy, medium, hard)")
         print("You explore")
         turns=1
         while turns < 101 and int(health) > 0:
@@ -162,16 +161,36 @@ while health > 0:
             turns+=1
             print("End of turn "+ str(turns)+"\n")
             time.sleep(1.0)
-            
-    elif explore=="shop":
-        print("Your gold "+str(gold))
-        print("The shopkeep says 'We only have potions of health! They are 20 gold each!'")
-        shop=input("How many do you want?")
-        cost=int(shop)*20
-        if int(gold)>=int(cost):
-            potions=int(potions)+int(shop)
-            gold=int(gold)-int(cost)
-            print("Gold left "+str(gold))
-            print("Total potoins "+str(potions))
-        else:
-            print("'Your to poor! Come back with some gold fool!'\nThe shopkeeper kicks you out.")
+
+    #Going to town (giggity)
+    elif explore=="town":
+        town=input("Where do you want to go in town? (shop, inspector, blacksmith, tavern)")
+        if town=="shop":
+            print("Your gold "+str(gold))
+            print("The shopkeep says 'We only have potions of health! They are 20 gold each!'")
+            shop=input("How many do you want?")
+            cost=int(shop)*20
+            if int(gold)>=int(cost):
+                potions=int(potions)+int(shop)
+                gold=int(gold)-int(cost)
+                print("Gold left "+str(gold))
+                print("Total potoins "+str(potions))
+            else:
+                print("'Your to poor! Come back with some gold fool!'\nThe shopkeeper kicks you out.")
+
+        elif town=="inspector":
+
+        elif town=="blacksmith":
+
+        elif town=="tavern":
+            print("Hello traveler, what can I do for you? A drink? Or the lates rumore?")
+            bar_keep=input("Whats your choice? (drink, rumore, or leave)")
+            if bar_keep=="drink":
+                print("Drinks cost one gold.")
+                drink=input("Do you want a drink?")
+                if drink=="yes" and gold > 0:
+                    gold=int(gold)-1
+                    print("Your gold: "+str(gold))
+                    print("You get drunk out of your mind.")
+                else:
+                    print("Goodbye")
