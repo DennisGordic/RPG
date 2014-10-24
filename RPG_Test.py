@@ -23,7 +23,19 @@ extra_health=int(player_lvl)*10
 health=90+int(extra_health)
 gold=0
 potions=0
-invintory=[]
+items_in_game={
+                'Sword': {'attack_str_max': int(drop_lvl)+6, 'attack_str_min': int(drop_lvl)}
+
+                'Bow': {'attack_str_max': int(drop_lvl)+6, 'attack_str_min': int(drop_lvl)}
+
+                'Staff': {'attack_str_max': int(drop_lvl)+6, 'attack_str_min': int(drop_lvl)}
+                'Staff': (int(drop_lvl)+6, int(drop_lvl))
+
+                }
+
+drop_lvl =(random.randint(items_in_game['staff'][0], items_in_game['staff'][1])# staff ?-?, staff 10-16}
+inventory = []
+in_hand={}
 while health > 0:
     extra_health=int(player_lvl)*10
     health=90+int(extra_health)
@@ -36,7 +48,7 @@ while health > 0:
     player_dmg_min=1*int(player_lvl)
     player_dmg_max=6*int(player_lvl)
 
-    explore=input("Do you want to explore or go to town? (only say explore or town)")
+    explore=input("Do you want to explore or go to town or edit your equipment? (only say explore or town or equipment)")
     turns=0
     if explore=="explore":
         lvl=input("What level monsters?")
@@ -49,6 +61,7 @@ while health > 0:
                 monster_xp= int(lvl)/int(player_lvl)*2
                 monster_loot= int(monster_lvl)
                 encounter=random.randint(1,100)
+                drop_lvl=int(lvl)
 
                 #normal fight
                 if int(encounter) >=70:
@@ -97,14 +110,18 @@ while health > 0:
                               if int(loot_chance) <10:
                                   print("No loot :(")
                                   print("Your gold "+str(gold))
-                              elif int(loot_chance) <90:
+                              elif int(loot_chance) <70:
                                   print("Your gold sir. It this many..." +str(monster_loot))
                                   gold=int(gold)+int(monster_loot)
                                   print("Your gold "+str(gold))
-                              else:
+                              elif int(loot_chance) <90:
                                   print("Rare loot! 1 potoin!")
                                   potions+=1
                                   print("\nYour total potions "+str(potions))
+                              elif int(loot_chance) < 100:
+                                  print("You see a "+str(Weapon))
+                                  pick_up=input("Do you pick up the weapon? (yes or no)")
+                                  if pick_up=
                         elif int(health) <= 0:
                               print("You died")
                     if fight=="run":
