@@ -1,12 +1,57 @@
 #RPG_TEST
 #Dennis Gordick
 #10/21/2014
+"""
+Task list:
+fix bug where you can sell potions you don't have
+allow player to leave battle
+make battles more difficult
+create different types of monsters
+create a limit to the cave
+add bosses
+improve shop inventory
+gain skill points every level to improve yourself
+"""
+
 import random
 import time
+import pickle, shelve
 
-Name=input("What is your name?")
-Race=input("What is your race? (Your choices are Human, Elf, and Dwarf.)")
-Class=input("What is your class? (Your choices are Warrior, Archer, and Mage.")
+response=input("New game or Load game? (Choose load or new)")
+while response != "load" and response != "new":
+	print(response + " is invalid input")
+	response=input("New game or Load game? (Choose load or new)")
+
+if response == "load":
+	try:
+		f = shelve.open("save.dat")
+		attributes = f["attributes"]
+		f.close()
+		Name = attributes["Name"]
+		Race = attributes["Race"]
+		Class = attributes["Class"]
+		Weapon = attributes["Weapon"]
+		xp = attributes["xp"]
+		player_lvl = attributes["player_lvl"]
+		gold = attributes["gold"]
+		potions = attributes["potions"]
+	except:
+		print("Save file is corrupt or doesn't exist")
+		response="new"
+if response=="new":
+	Name=input("What is your name?")
+	Race=input("What is your race? (Your choices are Human, Elf, and Dwarf.)")
+	Class=input("What is your class? (Your choices are Warrior, Archer, and Mage.")
+	if Class=="Warrior":
+	    Weapon="Sword"
+	    print("A "+Weapon+" is your weapon")
+	elif Class=="Archer":
+	    Weapon="Bow"
+	    print("A "+Weapon+" is your weapon")
+	else:
+	    Weapon="Staff"
+	    print("A "+Weapon+" is your weapon")
+
 
 if Class=="Warrior":
     Weapon="Sword"
@@ -43,7 +88,7 @@ while health > 0:
     player_dmg_min=0+int(player_lvl)
     player_dmg_max=7+int(player_lvl)
 
-    explore=input("Do you want to explore or go to town or look at some stats/info? (only say explore or town or info)")
+    explore=input("Do you want to explore or go to town or look at some stats/info or even save? (only say explore or town or info or save)")
     turns=1
     if explore=="explore":
         lvl=input("What level monsters?")
@@ -262,10 +307,10 @@ while health > 0:
         elif town=="inspector":
             print("Comeing soon")
 
-    elif town=="blacksmith":
+        elif town=="blacksmith":
             print("Comeing soon")
 
-    elif town=="tavern":
+        elif town=="tavern":
 
             print("Hello traveler, what can I do for you? A drink? Or the lates rumore?")
             bar_keep=input("Whats your choice? (drink, rumore, or leave)")
@@ -281,3 +326,12 @@ while health > 0:
 
                 else:
                     print("Goodbye")
+
+    elif explore=="save":
+	    #do you want extra_health or health saved?
+	    f = shelve.open("save.dat")
+	    attributes = {"Name":Name,"Race":Race,"Class":Class,"Weapon":Weapon,"xp":xp,"player_lvl":player_lvl,"gold":gold, "potions":potions}
+	    f["attributes"] = attributes
+	    f.sync()
+	    f.close()
+	    print("Game saved")
